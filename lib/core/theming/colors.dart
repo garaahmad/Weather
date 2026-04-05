@@ -8,6 +8,7 @@ class AppColors {
   // Backgrounds
   static const Color backgroundColor = Color(0xFF060E20); // Very deep space blue
   static const Color surfaceColor = Color(0xFF0F1930); // Darker surface
+  static const Color surfaceVariant = Color(0xFF192540); // Lighter atmospheric surface
   static const Color cardColor = Color(0xFF1E293B); // Slate blue for glass panels
   
   // States & Indicators
