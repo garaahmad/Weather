@@ -25,18 +25,24 @@ class _CurrentTemperatureState extends State<CurrentTemperature> {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            '25°C',
-            style: TextStyle(
-              fontSize: 64,
-              fontWeight: FontWeight.w300,
-              color: Colors.white,
-            ),
-          ),
-          const Icon(
-            Icons.wb_cloudy_outlined,
-            size: 48,
-            color: Colors.blueAccent,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                '25°C',
+                style: TextStyle(
+                  fontSize: 64,
+                  fontWeight: FontWeight.w300,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(width: 16),
+              const Icon(
+                Icons.wb_cloudy_outlined,
+                size: 48,
+                color: Colors.blueAccent,
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           const Text(

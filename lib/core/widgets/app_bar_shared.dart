@@ -17,7 +17,6 @@ class CustomSharedAppBar extends StatelessWidget
         ),
       ),
       backgroundColor: Colors.transparent,
-      elevation: 0,
       leading: IconButton(
         icon: const Icon(Icons.menu, color: Colors.blue),
         onPressed: () {

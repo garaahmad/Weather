@@ -20,12 +20,9 @@ class WeatherStateCard extends StatelessWidget {
       width: 120, // Adjusted for a card-like feel
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withOpacity(0.8), // Premium dark slate
+        color: const Color(0xFF1E293B).withOpacity(0.2), // Premium dark slate
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.05),
-          width: 1,
-        ),
+        border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
