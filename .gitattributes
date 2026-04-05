@@ -1,0 +1,31 @@
+# Hide non-mobile platforms and config files from GitHub language stats
+# Mark them as vendored or documentation to exclude them from the primary language bar
+
+# Common non-mobile directories
+web/* linguist-vendored
+windows/* linguist-vendored
+macos/* linguist-vendored
+linux/* linguist-vendored
+test/* linguist-documentation
+.idea/* linguist-vendored
+.dart_tool/* linguist-vendored
+build/* linguist-vendored
+.metadata linguist-vendored
+.gitignore linguist-vendored
+analysis_options.yaml linguist-vendored
+pubspec.lock linguist-vendored
+pubspec.yaml linguist-vendored
+
+# Explicitly ensure Dart, Android (Kotlin/Java/XML), and iOS (Swift/Objective-C) are detectable
+*.dart linguist-detectable=true
+*.kt linguist-detectable=true
+*.java linguist-detectable=true
+*.swift linguist-detectable=true
+*.xml linguist-detectable=true
+*.plist linguist-detectable=true
+
+# Set default primary language detections for better accuracy
+*.dart linguist-language=Dart
+*.kt linguist-language=Kotlin
+*.java linguist-language=Java
+*.swift linguist-language=Swift
