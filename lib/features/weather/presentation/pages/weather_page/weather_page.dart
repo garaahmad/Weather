@@ -5,7 +5,7 @@ import 'package:globalweather/core/widgets/app_bar_shared.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_state.dart';
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/forecast_page.dart';
-import 'package:globalweather/features/weather/presentation/pages/map_page.dart';
+import 'package:globalweather/features/weather/presentation/pages/map_page/map_page.dart';
 import 'package:globalweather/features/weather/presentation/pages/settings_page/settings_page.dart';
 import 'package:globalweather/features/weather/presentation/widgets/current_temperature.dart';
 import 'package:globalweather/features/weather/presentation/widgets/info_card.dart';
@@ -146,7 +146,10 @@ class _WeatherPageState extends State<WeatherPage> {
       child: ClipRRect(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(36)),
         child: BottomNavigationBar(
-          backgroundColor: Colors.blue.withOpacity(0.14),
+          //////////////////////////////////////////////////////////////// Change Here
+          backgroundColor: _currentIndex == 2 
+              ? Colors.black.withOpacity(0.4) 
+              : Colors.blue.withOpacity(0.14),
           currentIndex: _currentIndex,
           onTap: (index) {
             setState(() {
