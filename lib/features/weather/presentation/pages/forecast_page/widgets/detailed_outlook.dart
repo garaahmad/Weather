@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:globalweather/core/theme/colors.dart';
+import 'package:globalweather/features/weather/domain/entities/weather.dart';
 
 class DetailedOutlook extends StatelessWidget {
-  const DetailedOutlook({super.key});
+  final WeatherEntity weather;
+  const DetailedOutlook({super.key, required this.weather});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,9 @@ class DetailedOutlook extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Next 10 Days',
-            style: TextStyle(
+          Text(
+            'Next ${weather.forecastList.length} Days',
+            style: const TextStyle(
               fontSize: 48,
               fontWeight: FontWeight.w900,
               letterSpacing: -2.0,
@@ -32,8 +34,8 @@ class DetailedOutlook extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Variable conditions expected with a transition to cooler temperatures by the weekend.',
-            style: TextStyle(
+            'Currently ${weather.condition.toLowerCase()} in ${weather.cityName}. Expect ${weather.forecastList.isNotEmpty ? weather.forecastList[0].condition.toLowerCase() : "variable"} conditions today.',
+            style: const TextStyle(
               fontSize: 14,
               color: AppColors.textColorSecondary,
               height: 1.5,

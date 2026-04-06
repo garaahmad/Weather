@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:globalweather/core/theme/colors.dart';
+import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
 import 'widgets/map.dart';
 import 'widgets/map_button.dart';
 import 'widgets/monitoring_dialog.dart';
@@ -26,14 +28,21 @@ class _WeatherMapPageState extends State<WeatherMapPage> {
     });
   }
 
-  Future<void> _getCurrentLocation() async {
+  Future<void> _getCurrentLocation({bool showDialog = false}) async {
     final position = await LocationRepository.getCurrentLocation();
     if (position != null && mounted) {
+      final point = LatLng(position.latitude, position.longitude);
       setState(() {
-        _selectedPoint = LatLng(position.latitude, position.longitude);
+        _selectedPoint = point;
         _locationName = "Your Location";
       });
       _mapController.move(_selectedPoint, 9.0);
+      
+      if (showDialog) {
+        showMonitoringDialog(context, point, () {
+          context.read<WeatherCubit>().fetchWeatherByCoords(point.latitude, point.longitude);
+        });
+      }
     }
   }
 
@@ -43,7 +52,9 @@ class _WeatherMapPageState extends State<WeatherMapPage> {
       _locationName =
           "${point.latitude.toStringAsFixed(2)}, ${point.longitude.toStringAsFixed(2)}";
     });
-    showMonitoringDialog(context, point);
+    showMonitoringDialog(context, point, () {
+      context.read<WeatherCubit>().fetchWeatherByCoords(point.latitude, point.longitude);
+    });
   }
 
   @override
@@ -121,7 +132,7 @@ class _WeatherMapPageState extends State<WeatherMapPage> {
               buildMapFab(
                 Icons.my_location,
                 isPrimary: true,
-                onTap: _getCurrentLocation,
+                onTap: () => _getCurrentLocation(showDialog: true),
               ),
             ],
           ),

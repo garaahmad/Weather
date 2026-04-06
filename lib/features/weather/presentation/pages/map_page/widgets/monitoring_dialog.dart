@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:globalweather/core/theme/colors.dart';
 import 'package:latlong2/latlong.dart';
 
-void showMonitoringDialog(BuildContext context, LatLng point) {
+void showMonitoringDialog(BuildContext context, LatLng point, VoidCallback onConfirm) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -26,8 +26,8 @@ void showMonitoringDialog(BuildContext context, LatLng point) {
           ),
           ElevatedButton(
             onPressed: () {
-              // Add monitoring logic here
               Navigator.pop(context);
+              onConfirm();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text("Site added to monitoring list")),
               );
