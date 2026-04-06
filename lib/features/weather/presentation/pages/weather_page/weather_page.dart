@@ -6,7 +6,7 @@ import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.
 import 'package:globalweather/features/weather/presentation/cubit/weather_state.dart';
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/forecast_page.dart';
 import 'package:globalweather/features/weather/presentation/pages/map_page.dart';
-import 'package:globalweather/features/weather/presentation/pages/settings_page.dart';
+import 'package:globalweather/features/weather/presentation/pages/settings_page/settings_page.dart';
 import 'package:globalweather/features/weather/presentation/widgets/current_temperature.dart';
 import 'package:globalweather/features/weather/presentation/widgets/info_card.dart';
 import 'package:globalweather/features/weather/presentation/widgets/precipitation_map.dart';

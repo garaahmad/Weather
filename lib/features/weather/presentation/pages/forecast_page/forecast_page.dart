@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:globalweather/core/theme/colors.dart';
-import 'package:globalweather/features/weather/presentation/pages/forecast_page/detailed_outlook.dart';
-import 'package:globalweather/features/weather/presentation/pages/forecast_page/forecast_row.dart';
+import 'package:globalweather/features/weather/presentation/pages/forecast_page/widgets/detailed_outlook.dart';
+import 'package:globalweather/features/weather/presentation/pages/forecast_page/widgets/forecast_row.dart';
 import 'package:globalweather/features/weather/presentation/widgets/state_card.dart';
 
 class ForecastPage extends StatelessWidget {
