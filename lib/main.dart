@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:globalweather/features/weather/presentation/pages/weather_page.dart';
+import 'package:globalweather/features/weather/presentation/pages/weather_page/weather_page.dart';
 import 'package:globalweather/features/weather/data/datasources/weather_remote_data_source.dart';
 import 'package:globalweather/features/weather/data/repositories/weather_repository_impl.dart';
 import 'package:globalweather/features/weather/domain/usecases/get_weather.dart';
