@@ -5,6 +5,7 @@ class WeatherStateCard extends StatelessWidget {
   final String title;
   final String value;
   final String? unit;
+  final Color? color;
 
   const WeatherStateCard({
     super.key,
@@ -12,6 +13,7 @@ class WeatherStateCard extends StatelessWidget {
     required this.title,
     required this.value,
     this.unit,
+    this.color,
   });
 
   @override
@@ -30,7 +32,7 @@ class WeatherStateCard extends StatelessWidget {
           // Icon with a subtle glow
           Icon(
             icon,
-            color: const Color(0xFF38BDF8), // Cyan/Light Blue
+            color: color ?? const Color(0xFF38BDF8), // Cyan/Light Blue
             size: 28,
           ),
           const SizedBox(height: 16),

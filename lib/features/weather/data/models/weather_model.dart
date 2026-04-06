@@ -14,16 +14,30 @@ class WeatherModel extends WeatherEntity {
   });
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
+    final weather = json['weather'][0];
+    final main = json['main'];
+    final wind = json['wind'];
+    final sys = json['sys'];
+
+    String _formatTime(int timestamp) {
+      if (timestamp == 0) return "--:--";
+      final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+      final hour = date.hour > 12 ? date.hour - 12 : (date.hour == 0 ? 12 : date.hour);
+      final min = date.minute.toString().padLeft(2, '0');
+      final period = date.hour >= 12 ? 'PM' : 'AM';
+      return "$hour:$min $period";
+    }
+
     return WeatherModel(
-      cityName: json['name'],
-      temperature: json['main']['temp'].toDouble(),
-      condition: json['weather'][0]['description'],
-      humidity: json['main']['humidity'],
-      windSpeed: json['wind']['speed'].toDouble(),
-      uvIndex: 0, // Placeholder
-      pressure: json['main']['pressure'],
-      sunrise: "6:15 AM", // Placeholder
-      sunset: "8:30 PM", // Placeholder
+      cityName: json['name'] ?? "Unknown",
+      temperature: (main['temp'] as num).toDouble(),
+      condition: weather['main'] ?? "Clear",
+      humidity: (main['humidity'] as num).toInt(),
+      windSpeed: (wind['speed'] as num).toDouble(),
+      uvIndex: 0, // UV Index requires separate OneCall API in OWM 2.5
+      pressure: (main['pressure'] as num).toInt(),
+      sunrise: _formatTime(sys['sunrise'] ?? 0),
+      sunset: _formatTime(sys['sunset'] ?? 0),
     );
   }
 }
