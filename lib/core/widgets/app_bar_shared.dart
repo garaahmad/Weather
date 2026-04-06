@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:globalweather/core/theming/colors.dart';
+import 'package:globalweather/core/theme/colors.dart';
 
 class CustomSharedAppBar extends StatelessWidget
     implements PreferredSizeWidget {

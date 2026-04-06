@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:globalweather/core/theming/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:globalweather/core/theme/colors.dart';
 import 'package:globalweather/core/widgets/app_bar_shared.dart';
-import 'package:globalweather/features/weather/presentation/pages/forecast_page.dart';
+import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
+import 'package:globalweather/features/weather/presentation/cubit/weather_state.dart';
+import 'package:globalweather/features/weather/presentation/pages/forecast_page/forecast_page.dart';
+import 'package:globalweather/features/weather/presentation/pages/map_page.dart';
+import 'package:globalweather/features/weather/presentation/pages/settings_page.dart';
 import 'package:globalweather/features/weather/presentation/widgets/current_temperature.dart';
 import 'package:globalweather/features/weather/presentation/widgets/precipitation_map.dart';
 import 'package:globalweather/features/weather/presentation/widgets/scale_change.dart';
@@ -65,10 +70,10 @@ class _WeatherPageState extends State<WeatherPage> {
             child: IndexedStack(
               index: _currentIndex,
               children: [
-                _buildTodayView(),
+                _buildTodayView(context),
                 const ForecastPage(),
-                const Center(child: Text("Map View Placeholder")),
-                const Center(child: Text("Settings Placeholder")),
+                const WeatherMapPage(),
+                const WeatherSettingsPage(),
               ],
             ),
           ),
@@ -78,7 +83,7 @@ class _WeatherPageState extends State<WeatherPage> {
     );
   }
 
-  Widget _buildTodayView() {
+  Widget _buildTodayView(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -87,29 +92,36 @@ class _WeatherPageState extends State<WeatherPage> {
           TemperatureScaleToggle(onToggle: (isCelsius) {}),
           const CurrentTemperature(),
           const SizedBox(height: 32),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: InfoCard(
-                    icon: Icons.wb_twilight_rounded,
-                    title: 'SUNRISE',
-                    value: '6:15 AM',
-                    iconColor: AppColors.secondaryColor,
+          BlocBuilder<WeatherCubit, WeatherState>(
+            builder: (context, state) {
+              if (state is WeatherLoaded) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: InfoCard(
+                          icon: Icons.wb_twilight_rounded,
+                          title: 'SUNRISE',
+                          value: state.weather.sunrise,
+                          iconColor: AppColors.secondaryColor,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: InfoCard(
+                          icon: Icons.bedtime_rounded,
+                          title: 'SUNSET',
+                          value: state.weather.sunset,
+                          iconColor: AppColors.primaryColor,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: InfoCard(
-                    icon: Icons.bedtime_rounded,
-                    title: 'SUNSET',
-                    value: '8:30 PM',
-                    iconColor: AppColors.primaryColor,
-                  ),
-                ),
-              ],
-            ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
           ),
           const SizedBox(height: 32),
           const WeeklyForecast(),

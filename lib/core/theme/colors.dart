@@ -14,6 +14,7 @@ class AppColors {
   // States & Indicators
   static const Color accentColor = Color(0xFF38BDF8); // Cyan indicator
   static const Color secondaryColor = Color(0xFFF8A010); // Amber sunny/twilight
+  static const Color tertiaryColor = Color(0xFF9093FF); // Purple theme element
   
   // Text
   static const Color textColorPrimary = Color(0xFFDEE5FF); // Main text
