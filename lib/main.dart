@@ -7,7 +7,7 @@ import 'package:globalweather/features/weather/data/repositories/weather_reposit
 import 'package:globalweather/features/weather/domain/usecases/get_weather.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
 
-import 'package:globalweather/features/weather/data/repositories/location_persistence_repository.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,19 +18,13 @@ void main() async {
       WeatherRepositoryImpl(remoteDataSource: remoteDataSource);
   final GetWeatherUseCase fetchWeather = GetWeatherUseCase(repository);
 
-  final lastLocation = await LocationPersistenceRepository.getLastLocation();
-
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider<WeatherCubit>(
           create: (context) {
             final cubit = WeatherCubit(getWeatherUseCase: fetchWeather);
-            if (lastLocation != null) {
-              cubit.fetchWeatherByCoords(lastLocation['lat'], lastLocation['lon']);
-            } else {
-              cubit.fetchWeather('London');
-            }
+            cubit.fetchInitialWeather();
             return cubit;
           },
         ),

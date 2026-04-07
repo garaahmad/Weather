@@ -7,6 +7,8 @@ class LocationRepository {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      // Prompt user to enable services
+      await Geolocator.openLocationSettings();
       return null;
     }
 
