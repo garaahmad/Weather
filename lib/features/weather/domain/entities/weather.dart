@@ -1,3 +1,17 @@
+class ForecastEntity {
+  final DateTime date;
+  final double low;
+  final double high;
+  final String condition;
+
+  const ForecastEntity({
+    required this.date,
+    required this.low,
+    required this.high,
+    required this.condition,
+  });
+}
+
 class WeatherEntity {
   final String cityName;
   final double temperature;
@@ -8,6 +22,7 @@ class WeatherEntity {
   final int pressure;
   final String sunrise;
   final String sunset;
+  final List<ForecastEntity> forecastList;
 
   const WeatherEntity({
     required this.cityName,
@@ -19,5 +34,6 @@ class WeatherEntity {
     required this.pressure,
     required this.sunrise,
     required this.sunset,
+    required this.forecastList,
   });
 }

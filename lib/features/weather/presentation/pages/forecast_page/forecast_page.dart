@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:globalweather/core/theme/colors.dart';
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/widgets/detailed_outlook.dart';
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/widgets/forecast_row.dart';
@@ -10,7 +11,7 @@ class ForecastPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -20,7 +21,7 @@ class ForecastPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               DetailedOutlook(),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               WeatherStateCard(
                 icon: Icons.wb_sunny,
                 title: '24°',
@@ -29,7 +30,7 @@ class ForecastPage extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 48),
+          SizedBox(height: 48.h),
           ForecastRow(
             day: 'Today',
             date: 'AUG 24',
@@ -41,7 +42,7 @@ class ForecastPage extends StatelessWidget {
             high: 24,
             isToday: true,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ForecastRow(
             day: 'Sun',
             date: 'AUG 25',
@@ -52,7 +53,7 @@ class ForecastPage extends StatelessWidget {
             low: 15,
             high: 21,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ForecastRow(
             day: 'Mon',
             date: 'AUG 26',
@@ -63,7 +64,7 @@ class ForecastPage extends StatelessWidget {
             low: 17,
             high: 23,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ForecastRow(
             day: 'Tue',
             date: 'AUG 27',
@@ -74,7 +75,7 @@ class ForecastPage extends StatelessWidget {
             low: 17,
             high: 23,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ForecastRow(
             day: 'Wed',
             date: 'AUG 28',
@@ -85,7 +86,7 @@ class ForecastPage extends StatelessWidget {
             low: 17,
             high: 23,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ForecastRow(
             day: 'Thu',
             date: 'AUG 29',
@@ -96,7 +97,7 @@ class ForecastPage extends StatelessWidget {
             low: 17,
             high: 23,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ForecastRow(
             day: 'Fri',
             date: 'AUG 30',
@@ -107,7 +108,7 @@ class ForecastPage extends StatelessWidget {
             low: 17,
             high: 23,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ForecastRow(
             day: 'Sat',
             date: 'AUG 31',

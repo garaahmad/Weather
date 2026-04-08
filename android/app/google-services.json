@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "395320278314",
+    "project_id": "weather-ahmad",
+    "storage_bucket": "weather-ahmad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395320278314:android:bf44e83124c8211099b253",
+        "android_client_info": {
+          "package_name": "com.example.globalweather"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDucEu2lLXwSGEYhOwh45BR3AhnE3INm-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

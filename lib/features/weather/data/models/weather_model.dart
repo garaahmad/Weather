@@ -11,6 +11,7 @@ class WeatherModel extends WeatherEntity {
     required super.pressure,
     required super.sunrise,
     required super.sunset,
+    required super.forecastList,
   });
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
@@ -18,6 +19,17 @@ class WeatherModel extends WeatherEntity {
     final main = json['main'];
     final wind = json['wind'];
     final sys = json['sys'];
+
+    // Mock forecast data since the current API call only returns current weather
+    final mockForecast = List.generate(7, (index) {
+      final date = DateTime.now().add(Duration(days: index));
+      return ForecastEntity(
+        date: date,
+        low: (main['temp_min'] as num).toDouble() - index,
+        high: (main['temp_max'] as num).toDouble() + index,
+        condition: index % 2 == 0 ? "Clear" : "Clouds",
+      );
+    });
 
     String _formatTime(int timestamp) {
       if (timestamp == 0) return "--:--";
@@ -38,6 +50,7 @@ class WeatherModel extends WeatherEntity {
       pressure: (main['pressure'] as num).toInt(),
       sunrise: _formatTime(sys['sunrise'] ?? 0),
       sunset: _formatTime(sys['sunset'] ?? 0),
+      forecastList: mockForecast,
     );
   }
 }

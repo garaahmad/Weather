@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:globalweather/core/theme/colors.dart';
+import 'package:globalweather/features/weather/data/repositories/settings_repository.dart';
+import 'package:globalweather/features/weather/presentation/cubit/settings_cubit.dart';
 import 'package:globalweather/features/weather/presentation/pages/settings_page/widgets/category_header.dart';
 import 'package:globalweather/features/weather/presentation/pages/settings_page/widgets/settings_card.dart';
 import 'package:globalweather/features/weather/presentation/pages/settings_page/widgets/settings_row.dart';
 import 'package:globalweather/features/weather/presentation/pages/settings_page/widgets/toggle_option.dart';
-
 
 class WeatherSettingsPage extends StatelessWidget {
   const WeatherSettingsPage({super.key});
@@ -12,45 +15,61 @@ class WeatherSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Settings',
             style: TextStyle(
-              fontSize: 48,
+              fontSize: 48.sp,
               fontWeight: FontWeight.w900,
               letterSpacing: -2.0,
               color: AppColors.textColorPrimary,
             ),
           ),
-          const SizedBox(height: 8),
-          const Text(
+          SizedBox(height: 8.h),
+          Text(
             'Customize your meteorological experience',
-            style: TextStyle(fontSize: 16, color: AppColors.textColorSecondary),
+            style: TextStyle(fontSize: 16.sp, color: AppColors.textColorSecondary),
           ),
-          const SizedBox(height: 48),
+          SizedBox(height: 48.h),
           buildCategoryHeader('UNITS'),
-          buildSettingsCard(
-            icon: Icons.thermostat,
-            title: 'Temperature Scale',
-            subtitle: 'Choose your preferred unit',
-            trailing: Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: AppColors.surfaceColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  buildToggleOption('Celsius', active: true),
-                  buildToggleOption('Fahrenheit'),
-                ],
-              ),
-            ),
+          BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) {
+              return buildSettingsCard(
+                icon: Icons.thermostat,
+                title: 'Temperature Scale',
+                subtitle: 'Choose your preferred unit',
+                trailing: Container(
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceColor,
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Row(
+                    children: [
+                      buildToggleOption(
+                        'Celsius',
+                        active: state.unit == TemperatureUnit.celsius,
+                        onTap: () => context
+                            .read<SettingsCubit>()
+                            .setTemperatureUnit(TemperatureUnit.celsius),
+                      ),
+                      buildToggleOption(
+                        'Fahrenheit',
+                        active: state.unit == TemperatureUnit.fahrenheit,
+                        onTap: () => context
+                            .read<SettingsCubit>()
+                            .setTemperatureUnit(TemperatureUnit.fahrenheit),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           buildCategoryHeader('NOTIFICATIONS'),
           buildSettingsCard(
             icon: Icons.notifications_active,
@@ -64,7 +83,7 @@ class WeatherSettingsPage extends StatelessWidget {
               activeTrackColor: AppColors.primaryColor.withOpacity(0.3),
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           buildCategoryHeader('APPEARANCE'),
           buildSettingsCard(
             icon: Icons.dark_mode,
@@ -76,12 +95,12 @@ class WeatherSettingsPage extends StatelessWidget {
               color: AppColors.textColorSecondary,
             ),
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           buildCategoryHeader('ABOUT'),
           Container(
             decoration: BoxDecoration(
               color: AppColors.surfaceVariant.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(24.r),
               border: Border.all(color: Colors.white.withOpacity(0.05)),
             ),
             child: Column(
@@ -92,10 +111,10 @@ class WeatherSettingsPage extends StatelessWidget {
                   value: 'v2.4.0 (Stable Build)',
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Divider(
                     color: Colors.white.withOpacity(0.05),
-                    height: 1,
+                    height: 1.h,
                   ),
                 ),
                 buildSettingsRow(
@@ -106,18 +125,18 @@ class WeatherSettingsPage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 64),
-          const Center(
+          SizedBox(height: 64.h),
+          Center(
             child: Opacity(
               opacity: 0.2,
               child: Column(
                 children: [
-                  Icon(Icons.cloud_done, size: 48),
-                  SizedBox(height: 8),
+                  Icon(Icons.cloud_done, size: 48.sp),
+                  SizedBox(height: 8.h),
                   Text(
                     'GLOBALWEATHER',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 2.0,
                     ),
@@ -126,17 +145,9 @@ class WeatherSettingsPage extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 120),
+          SizedBox(height: 120.h),
         ],
       ),
     );
   }
-
-
-
-  
-
- 
-
-
 }

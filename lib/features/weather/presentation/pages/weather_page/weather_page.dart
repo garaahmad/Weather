@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:globalweather/core/theme/colors.dart';
 import 'package:globalweather/core/widgets/app_bar_shared.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
@@ -33,11 +34,11 @@ class _WeatherPageState extends State<WeatherPage> {
       body: Stack(
         children: [
           Positioned(
-            top: -100,
-            left: -100,
+            top: -100.h,
+            left: -100.w,
             child: Container(
-              width: 300,
-              height: 300,
+              width: 300.w,
+              height: 300.h,
               decoration: BoxDecoration(
                 color: AppColors.primaryColor.withOpacity(0.15),
                 shape: BoxShape.circle,
@@ -46,11 +47,11 @@ class _WeatherPageState extends State<WeatherPage> {
             ),
           ),
           Positioned(
-            top: 100,
-            right: -100,
+            top: 100.h,
+            right: -100.w,
             child: Container(
-              width: 250,
-              height: 250,
+              width: 250.w,
+              height: 250.h,
               decoration: BoxDecoration(
                 color: AppColors.secondaryColor.withOpacity(0.1),
                 shape: BoxShape.circle,
@@ -87,15 +88,15 @@ class _WeatherPageState extends State<WeatherPage> {
       child: Column(
         children: [
           const SearchBarApp(),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           TemperatureScaleToggle(onToggle: (isCelsius) {}),
           const CurrentTemperature(),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           BlocBuilder<WeatherCubit, WeatherState>(
             builder: (context, state) {
               if (state is WeatherLoaded) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                   child: Row(
                     children: [
                       Expanded(
@@ -106,7 +107,7 @@ class _WeatherPageState extends State<WeatherPage> {
                           iconColor: AppColors.secondaryColor,
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16.w),
                       Expanded(
                         child: InfoCard(
                           icon: Icons.bedtime_rounded,
@@ -122,11 +123,11 @@ class _WeatherPageState extends State<WeatherPage> {
               return const SizedBox.shrink();
             },
           ),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           const WeeklyForecast(),
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           const PrecipitationMap(),
-          const SizedBox(height: 120),
+          SizedBox(height: 120.h),
         ],
       ),
     );
@@ -144,7 +145,7 @@ class _WeatherPageState extends State<WeatherPage> {
         ],
       ),
       child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(36)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(36.r)),
         child: BottomNavigationBar(
           backgroundColor: Colors.blue.withOpacity(0.14),
           currentIndex: _currentIndex,
