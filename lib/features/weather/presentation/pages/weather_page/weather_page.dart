@@ -14,6 +14,8 @@ import 'package:globalweather/features/weather/presentation/widgets/precipitatio
 import 'package:globalweather/features/weather/presentation/widgets/scale_change.dart';
 import 'package:globalweather/features/weather/presentation/widgets/search_bar.dart';
 import 'package:globalweather/features/weather/presentation/widgets/weekly_forecast.dart';
+import 'package:globalweather/features/weather/presentation/cubit/settings_cubit.dart';
+import 'package:globalweather/features/weather/data/repositories/settings_repository.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({super.key});
@@ -84,51 +86,78 @@ class _WeatherPageState extends State<WeatherPage> {
   }
 
   Widget _buildTodayView(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SearchBarApp(),
-          SizedBox(height: 16.h),
-          TemperatureScaleToggle(onToggle: (isCelsius) {}),
-          const CurrentTemperature(),
-          SizedBox(height: 32.h),
-          BlocBuilder<WeatherCubit, WeatherState>(
-            builder: (context, state) {
-              if (state is WeatherLoaded) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: InfoCard(
-                          icon: Icons.wb_twilight_rounded,
-                          title: 'SUNRISE',
-                          value: state.weather.sunrise,
-                          iconColor: AppColors.secondaryColor,
-                        ),
-                      ),
-                      SizedBox(width: 16.w),
-                      Expanded(
-                        child: InfoCard(
-                          icon: Icons.bedtime_rounded,
-                          title: 'SUNSET',
-                          value: state.weather.sunset,
-                          iconColor: AppColors.primaryColor,
-                        ),
-                      ),
-                    ],
-                  ),
+    return RefreshIndicator(
+      color: AppColors.accentColor,
+      backgroundColor: AppColors.surfaceColor,
+      onRefresh: () async {
+        final weatherState = context.read<WeatherCubit>().state;
+        if (weatherState is WeatherLoaded) {
+          // Refresh the weather for the current city silently without prompting for GPS
+          await context.read<WeatherCubit>().fetchWeather(weatherState.weather.cityName);
+        } else {
+          // If no weather loaded, maybe we can fetch initial or trigger location refresh
+          // But we want to avoid location prompt if possible.
+          // AppRouter takes care of the initial load.
+        }
+      },
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            const SearchBarApp(),
+            SizedBox(height: 16.h),
+            BlocBuilder<SettingsCubit, SettingsState>(
+              builder: (context, settingsState) {
+                return TemperatureScaleToggle(
+                  initialValue: settingsState.unit == TemperatureUnit.celsius,
+                  onToggle: (isCelsius) {
+                    context.read<SettingsCubit>().setTemperatureUnit(
+                      isCelsius ? TemperatureUnit.celsius : TemperatureUnit.fahrenheit
+                    );
+                  },
                 );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          SizedBox(height: 32.h),
-          const WeeklyForecast(),
-          SizedBox(height: 32.h),
-          const PrecipitationMap(),
-          SizedBox(height: 120.h),
-        ],
+              },
+            ),
+            const CurrentTemperature(),
+            SizedBox(height: 32.h),
+            BlocBuilder<WeatherCubit, WeatherState>(
+              builder: (context, state) {
+                if (state is WeatherLoaded) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: InfoCard(
+                            icon: Icons.wb_twilight_rounded,
+                            title: 'SUNRISE',
+                            value: state.weather.sunrise,
+                            iconColor: AppColors.secondaryColor,
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        Expanded(
+                          child: InfoCard(
+                            icon: Icons.bedtime_rounded,
+                            title: 'SUNSET',
+                            value: state.weather.sunset,
+                            iconColor: AppColors.primaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+            SizedBox(height: 32.h),
+            const WeeklyForecast(),
+            SizedBox(height: 32.h),
+            const PrecipitationMap(),
+            SizedBox(height: 120.h), // Extra padding for bottom nav
+          ],
+        ),
       ),
     );
   }

@@ -47,6 +47,7 @@ class WeatherSettingsPage extends StatelessWidget {
                     color: AppColors.surfaceColor,
                     borderRadius: BorderRadius.circular(20.r),
                   ),
+                  
                   child: Row(
                     children: [
                       buildToggleOption(
@@ -71,29 +72,23 @@ class WeatherSettingsPage extends StatelessWidget {
           ),
           SizedBox(height: 32.h),
           buildCategoryHeader('NOTIFICATIONS'),
-          buildSettingsCard(
-            icon: Icons.notifications_active,
-            title: 'Severe Weather Alerts',
-            subtitle: 'Instant updates on critical changes',
-            iconColor: AppColors.secondaryColor,
-            trailing: Switch(
-              value: true,
-              onChanged: (v) {},
-              activeColor: AppColors.primaryColor,
-              activeTrackColor: AppColors.primaryColor.withOpacity(0.3),
-            ),
-          ),
-          SizedBox(height: 32.h),
-          buildCategoryHeader('APPEARANCE'),
-          buildSettingsCard(
-            icon: Icons.dark_mode,
-            title: 'Theme',
-            subtitle: 'Currently Dark Mode',
-            iconColor: AppColors.tertiaryColor,
-            trailing: const Icon(
-              Icons.chevron_right,
-              color: AppColors.textColorSecondary,
-            ),
+          BlocBuilder<SettingsCubit, SettingsState>(
+            builder: (context, state) {
+              return buildSettingsCard(
+                icon: Icons.notifications_active,
+                title: 'Periodic Weather Updates',
+                subtitle: 'Get notified with weather status every 5 hours',
+                iconColor: AppColors.secondaryColor,
+                trailing: Switch(
+                  value: state.notificationsEnabled,
+                  onChanged: (v) {
+                    context.read<SettingsCubit>().toggleNotifications(v);
+                  },
+                  activeColor: AppColors.primaryColor,
+                  activeTrackColor: AppColors.primaryColor.withOpacity(0.3),
+                ),
+              );
+            },
           ),
           SizedBox(height: 32.h),
           buildCategoryHeader('ABOUT'),
@@ -108,7 +103,7 @@ class WeatherSettingsPage extends StatelessWidget {
                 buildSettingsRow(
                   icon: Icons.info_outline,
                   title: 'App Version',
-                  value: 'v2.4.0 (Stable Build)',
+                  value: 'v1.0.0 (Stable Build)',
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),

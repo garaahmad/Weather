@@ -1,0 +1,52 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+/// Service responsible for subscribing/unsubscribing to Firebase FCM topics
+/// based on the user's current city/location.
+class FcmTopicService {
+  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+
+  static String _sanitizeCityName(String cityName) {
+    // FCM topic names must match: [a-zA-Z0-9-_.~%]
+    return cityName
+        .toLowerCase()
+        .replaceAll(' ', '_')
+        .replaceAll(RegExp(r'[^a-z0-9_]'), '');
+  }
+
+  /// Subscribe to a weather topic for a city.
+  Future<void> subscribeToCity(String cityName) async {
+    final topic = 'weather_${_sanitizeCityName(cityName)}';
+    await _fcm.subscribeToTopic(topic);
+  }
+
+  /// Unsubscribe from a weather topic for a city.
+  Future<void> unsubscribeFromCity(String cityName) async {
+    final topic = 'weather_${_sanitizeCityName(cityName)}';
+    await _fcm.unsubscribeFromTopic(topic);
+  }
+
+  /// Update subscription: unsubscribe from old city, subscribe to new city.
+  Future<void> updateSubscription({
+    required String? oldCityName,
+    required String newCityName,
+  }) async {
+    if (oldCityName != null && oldCityName != newCityName) {
+      await unsubscribeFromCity(oldCityName);
+    }
+    await subscribeToCity(newCityName);
+  }
+
+  /// Request user permission to display notifications.
+  Future<bool> requestNotificationPermission() async {
+    final settings = await _fcm.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    return settings.authorizationStatus == AuthorizationStatus.authorized ||
+        settings.authorizationStatus == AuthorizationStatus.provisional;
+  }
+
+  /// Get the current FCM device token (useful for debugging/logging).
+  Future<String?> getToken() => _fcm.getToken();
+}

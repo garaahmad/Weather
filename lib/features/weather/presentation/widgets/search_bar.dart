@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:globalweather/core/theme/colors.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
@@ -14,34 +15,30 @@ class _SearchBarAppState extends State<SearchBarApp> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 8.0.h),
       child: SearchAnchor(
         viewBackgroundColor: AppColors.surfaceColor,
         viewShape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
         builder: (BuildContext context, SearchController controller) {
           return SearchBar(
             controller: controller,
             elevation: WidgetStateProperty.all(0),
             backgroundColor: WidgetStateProperty.all(AppColors.surfaceColor),
-            padding: const WidgetStatePropertyAll<EdgeInsets>(
-              EdgeInsets.symmetric(horizontal: 16.0),
+            padding: WidgetStatePropertyAll<EdgeInsets>(
+              EdgeInsets.symmetric(horizontal: 16.0.w),
             ),
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
                 side: BorderSide(
-                  color: Colors.white.withOpacity(0.05),
-                  width: 1,
+                  color: Colors.white.withValues(alpha: 0.05),
+                  width: 1.w,
                 ),
               ),
             ),
-            leading: const Icon(
-              Icons.search,
-              color: AppColors.textColorSecondary,
-              size: 20,
-            ),
+            
             hintText: 'Search city/country...',
             onSubmitted: (value) {
               if (value.isNotEmpty) {
@@ -61,9 +58,9 @@ class _SearchBarAppState extends State<SearchBarApp> {
             return ListTile(
               title: Text(
                 'Search for "$item"',
-                style: const TextStyle(color: AppColors.textColorPrimary),
+                style: TextStyle(color: AppColors.textColorPrimary, fontSize: 16.sp),
               ),
-              leading: const Icon(Icons.location_city, color: AppColors.primaryColor),
+              leading: Icon(Icons.location_city, color: AppColors.primaryColor, size: 24.sp),
               onTap: () {
                 context.read<WeatherCubit>().fetchWeather(item);
                 controller.closeView(item);

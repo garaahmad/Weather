@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:globalweather/core/theme/colors.dart';
 
 class ForecastRow extends StatelessWidget {
@@ -27,16 +28,16 @@ class ForecastRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
         color: isToday
-            ? AppColors.surfaceColor.withOpacity(0.6)
-            : AppColors.surfaceColor.withOpacity(0.3),
-        borderRadius: BorderRadius.circular(24),
+            ? AppColors.surfaceColor.withValues(alpha: 0.6)
+            : AppColors.surfaceColor.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(24.r),
         border: Border.all(
           color: isToday
-              ? AppColors.primaryColor.withOpacity(0.2)
-              : Colors.white.withOpacity(0.05),
+              ? AppColors.primaryColor.withValues(alpha: 0.2)
+              : Colors.white.withValues(alpha: 0.05),
         ),
       ),
       child: Row(
@@ -48,16 +49,16 @@ class ForecastRow extends StatelessWidget {
               children: [
                 Text(
                   day,
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textColorPrimary,
                   ),
                 ),
                 Text(
                   date,
-                  style: const TextStyle(
-                    fontSize: 11,
+                  style: TextStyle(
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textColorSecondary,
                   ),
@@ -68,16 +69,16 @@ class ForecastRow extends StatelessWidget {
           Expanded(
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.water_drop,
                   color: AppColors.primaryColor,
-                  size: 14,
+                  size: 14.sp,
                 ),
-                const SizedBox(width: 4),
+                SizedBox(width: 4.w),
                 Text(
                   rain,
-                  style: const TextStyle(
-                    fontSize: 12,
+                  style: TextStyle(
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryColor,
                   ),
@@ -85,15 +86,15 @@ class ForecastRow extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(child: Icon(icon, color: iconColor, size: 28)),
+          Expanded(child: Icon(icon, color: iconColor, size: 28.sp)),
           Expanded(
             flex: 3,
             child: Container(
-              height: 4,
-              margin: const EdgeInsets.symmetric(horizontal: 16),
+              height: 4.h,
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(2),
+                color: Colors.white.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(2.r),
               ),
               child: FractionallySizedBox(
                 alignment: Alignment.centerLeft,
@@ -106,7 +107,7 @@ class ForecastRow extends StatelessWidget {
                         AppColors.secondaryColor,
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(2),
+                    borderRadius: BorderRadius.circular(2.r),
                   ),
                 ),
               ),
@@ -117,16 +118,16 @@ class ForecastRow extends StatelessWidget {
             children: [
               Text(
                 '$high°',
-                style: const TextStyle(
-                  fontSize: 16,
+                style: TextStyle(
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textColorPrimary,
                 ),
               ),
               Text(
                 '$low°',
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: 14.sp,
                   color: AppColors.textColorSecondary,
                 ),
               ),

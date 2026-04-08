@@ -4,6 +4,8 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:globalweather/core/theme/colors.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
+import 'package:globalweather/features/location/presentation/bloc/location_bloc.dart';
+import 'package:globalweather/features/location/presentation/bloc/location_state.dart';
 import 'widgets/map.dart';
 import 'widgets/map_button.dart';
 import 'widgets/monitoring_dialog.dart';
@@ -24,19 +26,37 @@ class _WeatherMapPageState extends State<WeatherMapPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _getCurrentLocation();
+      _setInitialMapLocation();
     });
+  }
+
+  void _setInitialMapLocation() {
+    final locState = context.read<LocationBloc>().state;
+    if (locState is LocationLoaded) {
+      _updateMap(LatLng(locState.location.latitude, locState.location.longitude), locState.location.cityName);
+    } else if (locState is LocationUsedFromCache) {
+      _updateMap(LatLng(locState.location.latitude, locState.location.longitude), locState.location.cityName);
+    } else if (locState is LocationSilentlyUpdated) {
+      _updateMap(LatLng(locState.location.latitude, locState.location.longitude), locState.location.cityName);
+    } else {
+      // Default to London if nothing is available, do NOT prompt user
+      _updateMap(const LatLng(51.5074, -0.1278), "London, UK");
+    }
+  }
+
+  void _updateMap(LatLng point, String name) {
+    setState(() {
+      _selectedPoint = point;
+      _locationName = name.isEmpty ? "Saved Location" : name;
+    });
+    _mapController.move(_selectedPoint, 9.0);
   }
 
   Future<void> _getCurrentLocation({bool showDialog = false}) async {
     final position = await LocationRepository.getCurrentLocation();
     if (position != null && mounted) {
       final point = LatLng(position.latitude, position.longitude);
-      setState(() {
-        _selectedPoint = point;
-        _locationName = "Your Location";
-      });
-      _mapController.move(_selectedPoint, 9.0);
+      _updateMap(point, "Your Location");
       
       if (showDialog) {
         showMonitoringDialog(context, point, () {

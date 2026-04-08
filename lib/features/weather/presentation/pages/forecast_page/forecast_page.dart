@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:globalweather/core/theme/colors.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_state.dart';
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/widgets/detailed_outlook.dart';
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/widgets/forecast_row.dart';
 import 'package:globalweather/features/weather/presentation/widgets/state_card.dart';
-import 'package:intl/intl.dart';
 
 class ForecastPage extends StatelessWidget {
   const ForecastPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Hero Section
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DetailedOutlook(),
+    return BlocBuilder<WeatherCubit, WeatherState>(
+      builder: (context, state) {
+        if (state is WeatherLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is WeatherError) {
+          return Center(
+            child: Text(
+              state.message,
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
+        } else if (state is WeatherLoaded) {
+          final weather = state.weather;
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Hero Section
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DetailedOutlook(weather: weather,),
               const SizedBox(width: 16),
               WeatherStateCard(
                 icon: Icons.wb_sunny,
@@ -123,6 +136,10 @@ class ForecastPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WeatherStateCard extends StatelessWidget {
   final IconData icon;
@@ -19,12 +20,12 @@ class WeatherStateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120, // Adjusted for a card-like feel
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
+      width: 120.w, // Adjusted for a card-like feel
+      padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 12.w),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withOpacity(0.2), // Premium dark slate
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.white.withOpacity(0.05), width: 1),
+        color: const Color(0xFF1E293B).withValues(alpha: 0.2), // Premium dark slate
+        borderRadius: BorderRadius.circular(28.r),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05), width: 1.w),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -33,21 +34,21 @@ class WeatherStateCard extends StatelessWidget {
           Icon(
             icon,
             color: color ?? const Color(0xFF38BDF8), // Cyan/Light Blue
-            size: 28,
+            size: 28.sp,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           // Title (Label)
           Text(
             title.toUpperCase(),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.2,
-              color: Colors.white.withOpacity(0.5),
+              color: Colors.white.withValues(alpha: 0.5),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           // Value and Unit
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -56,8 +57,8 @@ class WeatherStateCard extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: const TextStyle(
-                  fontSize: 22,
+                style: TextStyle(
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -66,9 +67,9 @@ class WeatherStateCard extends StatelessWidget {
                 Text(
                   unit!,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                   ),
                 ),
             ],

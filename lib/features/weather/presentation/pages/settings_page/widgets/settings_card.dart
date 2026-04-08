@@ -33,14 +33,14 @@ Widget buildSettingsCard({
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   subtitle,
                   style: const TextStyle(
-                    fontSize: 12,
+                    fontSize: 10,
                     color: AppColors.textColorSecondary,
                   ),
                 ),
