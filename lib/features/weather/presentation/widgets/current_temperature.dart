@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_state.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:globalweather/features/weather/presentation/widgets/state_card.dart';
+import 'package:globalweather/features/weather/presentation/cubit/settings_cubit.dart';
+import 'package:globalweather/core/utils/temperature_converter.dart';
 
 class CurrentTemperature extends StatelessWidget {
   const CurrentTemperature({super.key});
@@ -27,43 +30,47 @@ class CurrentTemperature extends StatelessWidget {
               children: [
                 Text(
                   weather.cityName,
-                  style: const TextStyle(
-                    fontSize: 24,
+                  style: TextStyle(
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${weather.temperature.round()}°C',
-                      style: const TextStyle(
-                        fontSize: 64,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Icon(
-                      _getWeatherIcon(weather.condition),
-                      size: 48,
-                      color: Colors.blueAccent,
-                    ),
-                  ],
+                SizedBox(height: 8.h),
+                BlocBuilder<SettingsCubit, SettingsState>(
+                  builder: (context, settingsState) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          TemperatureConverter.format(weather.temperature, settingsState.unit),
+                          style: TextStyle(
+                            fontSize: 64.sp,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 16.w),
+                        Icon(
+                          _getWeatherIcon(weather.condition),
+                          size: 48.sp,
+                          color: Colors.blueAccent,
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Text(
                   weather.condition,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w400,
                     color: Colors.white70,
                   ),
                 ),
-                const SizedBox(height: 48),
+                SizedBox(height: 48.h),
                 // Horizontal scrolling list of state cards
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -75,20 +82,20 @@ class CurrentTemperature extends StatelessWidget {
                         value: weather.humidity.toString(),
                         unit: '%',
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16.w),
                       WeatherStateCard(
                         icon: Icons.air,
                         title: 'WIND',
                         value: weather.windSpeed.toString(),
                         unit: ' km/h',
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16.w),
                       WeatherStateCard(
                         icon: Icons.wb_sunny_outlined,
                         title: 'UV INDEX',
                         value: weather.uvIndex.toString(),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16.w),
                       WeatherStateCard(
                         icon: Icons.speed,
                         title: 'PRESSURE',

@@ -6,6 +6,10 @@ import 'package:globalweather/features/weather/data/datasources/weather_remote_d
 import 'package:globalweather/features/weather/data/repositories/weather_repository_impl.dart';
 import 'package:globalweather/features/weather/domain/usecases/get_weather.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
+import 'package:globalweather/features/weather/data/repositories/settings_repository.dart';
+import 'package:globalweather/features/weather/presentation/cubit/settings_cubit.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 
@@ -18,18 +22,30 @@ void main() async {
       WeatherRepositoryImpl(remoteDataSource: remoteDataSource);
   final GetWeatherUseCase fetchWeather = GetWeatherUseCase(repository);
 
+  final SettingsRepository settingsRepository = SettingsRepository();
+
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<WeatherCubit>(
-          create: (context) {
-            final cubit = WeatherCubit(getWeatherUseCase: fetchWeather);
-            cubit.fetchInitialWeather();
-            return cubit;
-          },
-        ),
-      ],
-      child: const MyApp(),
+    ScreenUtilInit(
+      designSize: const Size(390, 844),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<SettingsCubit>(
+              create: (context) => SettingsCubit(repository: settingsRepository)..loadSettings(),
+            ),
+            BlocProvider<WeatherCubit>(
+              create: (context) {
+                final cubit = WeatherCubit(getWeatherUseCase: fetchWeather);
+                cubit.fetchInitialWeather();
+                return cubit;
+              },
+            ),
+          ],
+          child: const MyApp(),
+        );
+      },
     ),
   );
 }
