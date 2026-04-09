@@ -15,9 +15,15 @@ class WeeklyForecast extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WeatherCubit, WeatherState>(
       builder: (context, weatherState) {
-        if (weatherState is! WeatherLoaded) return const SizedBox.shrink();
-        
-        final forecastList = weatherState.weather.forecastList;
+        // Show forecast for loaded OR offline-with-cached-data states
+        final forecastList = weatherState is WeatherLoaded
+            ? weatherState.weather.forecastList
+            : (weatherState is WeatherNoConnection
+                ? weatherState.lastWeather?.forecastList
+                : null);
+        if (forecastList == null || forecastList.isEmpty) {
+          return const SizedBox.shrink();
+        }
 
         return BlocBuilder<SettingsCubit, SettingsState>(
           builder: (context, settingsState) {

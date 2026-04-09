@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:globalweather/core/theme/colors.dart';
 import 'package:globalweather/core/widgets/app_bar_shared.dart';
+import 'package:globalweather/core/widgets/app_drawer.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:globalweather/features/weather/presentation/cubit/weather_state.dart';
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/forecast_page.dart';
@@ -33,6 +34,7 @@ class _WeatherPageState extends State<WeatherPage> {
       backgroundColor: AppColors.backgroundColor,
       extendBody: true,
       appBar: const CustomSharedAppBar(title: "GlobalWeather"),
+      drawer: const AppDrawer(),
       body: Stack(
         children: [
           Positioned(
@@ -122,7 +124,11 @@ class _WeatherPageState extends State<WeatherPage> {
             SizedBox(height: 32.h),
             BlocBuilder<WeatherCubit, WeatherState>(
               builder: (context, state) {
-                if (state is WeatherLoaded) {
+                // Show sunrise/sunset cards for loaded OR offline-with-cached-data states
+                final weather = state is WeatherLoaded
+                    ? state.weather
+                    : (state is WeatherNoConnection ? state.lastWeather : null);
+                if (weather != null) {
                   return Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                     child: Row(
@@ -131,7 +137,7 @@ class _WeatherPageState extends State<WeatherPage> {
                           child: InfoCard(
                             icon: Icons.wb_twilight_rounded,
                             title: 'SUNRISE',
-                            value: state.weather.sunrise,
+                            value: weather.sunrise,
                             iconColor: AppColors.secondaryColor,
                           ),
                         ),
@@ -140,7 +146,7 @@ class _WeatherPageState extends State<WeatherPage> {
                           child: InfoCard(
                             icon: Icons.bedtime_rounded,
                             title: 'SUNSET',
-                            value: state.weather.sunset,
+                            value: weather.sunset,
                             iconColor: AppColors.primaryColor,
                           ),
                         ),

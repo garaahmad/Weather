@@ -12,7 +12,20 @@
           "package_name": "com.example.globalweather"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "395320278314-lrdk5pf53if0666q9oq1vnts600t2rpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.globalweather",
+            "certificate_hash": "b0d92deddc63fb2c4d4bf458358381c849526020"
+          }
+        },
+        {
+          "client_id": "395320278314-tckkd4g1g2ggcvm5vvspp4au21hjpo8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDucEu2lLXwSGEYhOwh45BR3AhnE3INm-E"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395320278314-tckkd4g1g2ggcvm5vvspp4au21hjpo8g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "395320278314-u2p0ksljpinisv6m6a12amr8lvp1s7ss.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.globalweather"
+              }
+            }
+          ]
         }
       }
     }

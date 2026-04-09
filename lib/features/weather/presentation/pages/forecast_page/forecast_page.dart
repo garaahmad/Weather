@@ -6,6 +6,7 @@ import 'package:globalweather/features/weather/presentation/cubit/weather_state.
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/widgets/detailed_outlook.dart';
 import 'package:globalweather/features/weather/presentation/pages/forecast_page/widgets/forecast_row.dart';
 import 'package:globalweather/features/weather/presentation/widgets/state_card.dart';
+import 'package:globalweather/core/widgets/offline_widget.dart';
 
 class ForecastPage extends StatelessWidget {
   const ForecastPage({super.key});
@@ -16,13 +17,12 @@ class ForecastPage extends StatelessWidget {
       builder: (context, state) {
         if (state is WeatherLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (state is WeatherError) {
-          return Center(
-            child: Text(
-              state.message,
-              style: const TextStyle(color: Colors.red),
-            ),
+        } else if (state is WeatherNoConnection) {
+          return OfflineWidget(
+            onRetry: () => context.read<WeatherCubit>().fetchInitialWeather(),
           );
+        } else if (state is WeatherError) {
+          return const SizedBox.shrink();
         } else if (state is WeatherLoaded) {
           final weather = state.weather;
           return SingleChildScrollView(

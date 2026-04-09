@@ -27,3 +27,15 @@ class WeatherError extends WeatherState {
   @override
   List<Object?> get props => [message];
 }
+
+/// Emitted when there is no internet connection.
+/// [lastWeather] holds previously loaded data (if any) so the UI
+/// can still show stale data with a subtle "offline" banner instead
+/// of a blank screen.
+class WeatherNoConnection extends WeatherState {
+  final WeatherEntity? lastWeather;
+  const WeatherNoConnection({this.lastWeather});
+
+  @override
+  List<Object?> get props => [lastWeather];
+}
