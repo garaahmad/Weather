@@ -9,7 +9,6 @@ class LocationRepositoryImpl implements ILocationRepository {
   static const _nameKey = 'loc_name';
   static const _firstLaunchKey = 'first_launch_done';
 
-  // ─── Permission / Service Checks ────────────────────────────────────────────
 
   @override
   Future<bool> isLocationServiceEnabled() =>
@@ -22,7 +21,6 @@ class LocationRepositoryImpl implements ILocationRepository {
         permission == LocationPermission.whileInUse;
   }
 
-  // ─── Get Current Location (requests permission) ──────────────────────────────
 
   @override
   Future<LocationEntity?> getCurrentLocation() async {
@@ -47,7 +45,6 @@ class LocationRepositoryImpl implements ILocationRepository {
       ),
     );
 
-    // cityName will be filled by the caller after reverse-geocoding / weather API call
     return LocationEntity(
       latitude: pos.latitude,
       longitude: pos.longitude,
@@ -55,7 +52,6 @@ class LocationRepositoryImpl implements ILocationRepository {
     );
   }
 
-  // ─── Local Storage ───────────────────────────────────────────────────────────
 
   @override
   Future<void> saveLocation(LocationEntity location) async {
@@ -79,7 +75,6 @@ class LocationRepositoryImpl implements ILocationRepository {
     );
   }
 
-  // ─── First Launch ────────────────────────────────────────────────────────────
 
   @override
   Future<bool> isFirstLaunch() async {

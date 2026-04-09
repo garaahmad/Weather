@@ -7,10 +7,6 @@ import 'package:globalweather/features/location/presentation/pages/location_perm
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:globalweather/features/weather/presentation/pages/weather_page/weather_page.dart';
 
-/// Root widget that listens to [LocationBloc] and orchestrates routing.
-/// - First launch → [LocationPermissionPage]
-/// - Loaded → [WeatherPage] (fetches weather from resolved coords)
-/// - Silent update → triggers weather refresh quietly
 class AppRouter extends StatefulWidget {
   const AppRouter({super.key});
 

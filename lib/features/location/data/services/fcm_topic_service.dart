@@ -19,13 +19,11 @@ class FcmTopicService {
     await _fcm.subscribeToTopic(topic);
   }
 
-  /// Unsubscribe from a weather topic for a city.
   Future<void> unsubscribeFromCity(String cityName) async {
     final topic = 'weather_${_sanitizeCityName(cityName)}';
     await _fcm.unsubscribeFromTopic(topic);
   }
 
-  /// Update subscription: unsubscribe from old city, subscribe to new city.
   Future<void> updateSubscription({
     required String? oldCityName,
     required String newCityName,
@@ -36,7 +34,6 @@ class FcmTopicService {
     await subscribeToCity(newCityName);
   }
 
-  /// Request user permission to display notifications.
   Future<bool> requestNotificationPermission() async {
     final settings = await _fcm.requestPermission(
       alert: true,
@@ -47,6 +44,5 @@ class FcmTopicService {
         settings.authorizationStatus == AuthorizationStatus.provisional;
   }
 
-  /// Get the current FCM device token (useful for debugging/logging).
   Future<String?> getToken() => _fcm.getToken();
 }

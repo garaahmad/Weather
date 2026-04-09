@@ -18,34 +18,28 @@ import 'package:globalweather/features/weather/presentation/cubit/settings_cubit
 import 'package:globalweather/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:globalweather/features/weather/data/services/local_notification_service.dart';
 
-/// Background message handler — must be a top-level function.
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Handle background notification silently; weather refresh happens on next launch.
 }
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ── Firebase & Notifications ────────────────────────────────────────────────────────────────
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   
   await LocalNotificationService.initialize();
 
-  // ── Weather stack ────────────────────────────────────────────────────────────
   final httpClient = http.Client();
   final remoteDataSource = WeatherRemoteDataSourceImpl(client: httpClient);
   final weatherRepository = WeatherRepositoryImpl(remoteDataSource: remoteDataSource);
   final getWeatherUseCase = GetWeatherUseCase(weatherRepository);
 
-  // ── Location stack ───────────────────────────────────────────────────────────
   final locationRepository = LocationRepositoryImpl();
   final fcmTopicService = FcmTopicService();
   await fcmTopicService.requestNotificationPermission();
 
-  // ── Settings stack ───────────────────────────────────────────────────────────
   final settingsRepository = SettingsRepository();
 
   runApp(
