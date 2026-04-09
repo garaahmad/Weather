@@ -30,7 +30,14 @@ class PrecipitationMap extends StatelessWidget {
                   size: 20.sp,
                   color: AppColors.textColorSecondary,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PrecipitationMap(),
+                    ),
+                  );
+                },
               ),
             ],
           ),

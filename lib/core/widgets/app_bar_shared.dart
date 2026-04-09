@@ -23,12 +23,6 @@ class CustomSharedAppBar extends StatelessWidget
           Scaffold.of(context).openDrawer();
         },
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.search, color: Colors.blue),
-          onPressed: () {},
-        ),
-      ],
     );
   }
 

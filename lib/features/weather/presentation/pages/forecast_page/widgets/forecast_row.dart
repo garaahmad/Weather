@@ -75,12 +75,17 @@ class ForecastRow extends StatelessWidget {
                   size: 14.sp,
                 ),
                 SizedBox(width: 4.w),
-                Text(
-                  rain,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryColor,
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      rain,
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
                   ),
                 ),
               ],
