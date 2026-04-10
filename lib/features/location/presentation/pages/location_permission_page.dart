@@ -70,8 +70,20 @@ class LocationPermissionPage extends StatelessWidget {
                   onPressed: () async {
                     final permission = await Geolocator.requestPermission();
                     if (!context.mounted) return;
+
                     if (permission == LocationPermission.always ||
                         permission == LocationPermission.whileInUse) {
+                      // Permission granted, now check if service is enabled
+                      final isServiceEnabled =
+                          await Geolocator.isLocationServiceEnabled();
+                      if (!isServiceEnabled) {
+                        // Prompt to enable service
+                        await Geolocator.openLocationSettings();
+                        // We don't dispatch yet because we need the user to turn it on
+                        // They'll likely come back and click again or we can re-check later
+                        return;
+                      }
+
                       context
                           .read<LocationBloc>()
                           .add(LocationPermissionGranted());

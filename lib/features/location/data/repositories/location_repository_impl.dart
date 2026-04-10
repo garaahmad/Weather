@@ -87,4 +87,7 @@ class LocationRepositoryImpl implements ILocationRepository {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_firstLaunchKey, true);
   }
+
+  @override
+  Future<bool> openLocationSettings() => Geolocator.openLocationSettings();
 }

@@ -14,4 +14,6 @@ abstract class ILocationRepository {
   Future<bool> isFirstLaunch();
 
   Future<void> markFirstLaunchDone();
+
+  Future<bool> openLocationSettings();
 }
