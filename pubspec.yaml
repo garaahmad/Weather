@@ -50,6 +50,7 @@ dependencies:
   firebase_auth: ^6.3.0
   google_sign_in: ^6.2.1
   connectivity_plus: ^7.1.0
+  flutter_native_splash: ^2.4.7
 
 dev_dependencies:
   flutter_test:
@@ -103,3 +104,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# ─── Native Splash Screen Configuration ───────────────────────────────
+flutter_native_splash:
+  color: "#0B1120"
+  image: assets/images/logo/splash_logo.png
+  fullscreen: true
+
+  android_12:
+    color: "#0B1120"
+    image: assets/images/logo/blank.png
+    icon_background_color: "#0B1120"

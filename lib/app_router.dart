@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:globalweather/features/location/presentation/bloc/location_bloc.dart';
 import 'package:globalweather/features/location/presentation/bloc/location_event.dart';
 import 'package:globalweather/features/location/presentation/bloc/location_state.dart';
@@ -20,6 +21,8 @@ class _AppRouterState extends State<AppRouter> {
     super.initState();
     // Kick off the launch logic
     context.read<LocationBloc>().add(AppLaunched());
+    // Remove the native splash — Flutter UI is now rendering
+    FlutterNativeSplash.remove();
   }
 
   @override
